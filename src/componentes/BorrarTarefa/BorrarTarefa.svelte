@@ -5,6 +5,7 @@
     export let tarefa
 
     function manexadorBorrar() {
+        const tarefaJSON = JSON.stringify({ id: tarefa.id })
         const promesaResposta = fetch(
             "http://localhost:8000/tarefas/",
             {
@@ -12,7 +13,7 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ id: tarefa })
+                body: tarefaJSON
             }
         )
     }
