@@ -7,14 +7,33 @@
     let completada = false
 
     $: novaTarefa = {
+        id: Date.now(),
         descripcion: descripcion,
         completada: completada
     }
     
-    function manexadorClick() {
-        listaDeTarefas.push(novaTarefa)
-        listaDeTarefas = listaDeTarefas // Necesitamos empregar unha asignación
-    }                                    // para que Svelte reaccione ó cambio do array.
+    function manexadorEngadir() {
+        fetch(
+            "http://localhost:8000/tarefas/",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(novaTarefa)
+            }
+        ).then(
+
+        )
+    }
+
+    function manexadorActualizar() {
+        fetch("http://localhost:8000/tarefas/").then(
+            resposta => resposta.json().then(
+                datos => listaDeTarefas = datos
+            )
+        )
+    }
 
 </script>
 
@@ -32,7 +51,8 @@
         <span>Completada:</span> <input type="checkbox" bind:checked={completada}/>
     </label>
 
-    <button on:click={manexadorClick}>Engadir tarefa</button>
+    <button on:click={manexadorEngadir}>Engadir tarefa</button>
+    <button on:click={manexadorActualizar}>Actualizar</button>
 
 </fieldset>
 
